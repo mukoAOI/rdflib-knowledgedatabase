@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中医针灸方向问答系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa; /* 改变背景颜色 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow-y: scroll; /* 纵向滚动轴*/
+            overflow-x: auto; /* 横向滚动轴 */
+            height: 1500px;
+            background-color: #b3e5fc; /* 改变背景颜色 */
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+            border-radius: 10px; /* 添加圆角 */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 36px; /* 增大字体 */
+            color: #00796b; /* 改变字体颜色 */
+        }
+        .section {
+            width: 100%;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        #user_input {
+            width: 80%;
+            height: 50px;
+            resize: none;
+            margin-bottom: 20px;
+            padding: 15px;
+            font-size: 18px;
+            border: 1px solid #00796b; /* 改变边框颜色 */
+            border-radius: 10px; /* 添加圆角 */
+            outline: none;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+        }
+        textarea {
+            width: 80%;
+            height: 100px; /* 增大高度 */
+            resize: none;
+            margin-bottom: 20px;
+            padding: 15px;
+            font-size: 18px;
+            border: 1px solid #00796b; /* 改变边框颜色 */
+            border-radius: 10px; /* 添加圆角 */
+            outline: none;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #00796b; /* 改变背景颜色 */
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 20px; /* 添加圆角 */
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s; /* 添加动画效果 */
+        }
+        button:hover {
+            background-color: #004d40; /* 改变悬停背景颜色 */
+            transform: scale(1.05); /* 添加缩放效果 */
+        }
+        .answer {
+            font-size: 20px; /* 增大字体 */
+            color: #004d40; /* 改变字体颜色 */
+            width: 100%;
+            text-align: center;
+        }
+        .template {
+            font-size: 18px;
+            color: #333;
+            width: 100%;
+            text-align: center;
+            background-color: #e0f7fa; /* 改变背景颜色 */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .template p {
+            margin-bottom: 10px;
+        }
+    </style>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+<!--    //<script>-->
+<!--        function submitQuestion() {-->
+<!--            const questionInput = document.querySelector('textarea');-->
+<!--            const answerDiv = document.querySelector('.answer');-->
+<!--            const question = questionInput.value;-->
+
+<!--            // 发送问题到后端并获取答案-->
+<!--            fetch('/submit', {-->
+<!--                method: 'POST',-->
+<!--                body: JSON.stringify({ question: question }),-->
+<!--                headers: {-->
+<!--                    'Content-Type': 'application/json'-->
+<!--                }-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                if (data.result) {-->
+<!--                    answerDiv.innerHTML = `<p>${data.result}</p>`;-->
+<!--                } else {-->
+<!--                    answerDiv.innerHTML = '<p>无法获取答案。</p>';-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Error:', error);-->
+<!--                answerDiv.innerHTML = '<p>发生错误，请稍后再试。</p>';-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
+</head>
+<body>
+    <div class="container">
+        <h1>中医针灸方向问答系统</h1>
+        <div class="section">
+            <form method="POST" action="/submit">
+                <label for="user_input">请在此输入您的问题：</label>
+                <input type="text" id="user_input" name="user_input">
+                 <br><br>
+                <button type="submit" >点击这里提问</button>
+            </form>
+        </div>
+        <div class="section">
+            <div class="answer">
+                <p>答案将在这里展示:</p>
+                {% if result is not none %}
+                  {{ result }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="section">
+            <div class="template">
+                <p>可以按照以下句式提问：</p>
+                <p>其中##代表不同穴位</p>
+                <p>1. 针灸学/经络学的定义是什么？</p>
+                <p>2. ##的定位是：</p>
+                <p>3. ##的解剖是在哪个位置？</p>
+                <p>4. ##的主治是哪些症状?</p>
+                <p>5. ##的刺灸法是：</p>
+                <p>6. ##的附注是？</p>
+                <p>7. ##的配伍是？</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

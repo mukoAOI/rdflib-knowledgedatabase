@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>中医针灸问答系统</title>
+    <style>
+        /* 重置浏览器默认样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #e8f5e9; /* 浅绿色背景 */
+        }
+
+        /* 通用容器样式 */
+        .container,
+        .container2 {
+            width: 85%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* 头部样式 */
+        header {
+            background: #388e3c; /* 深绿色背景 */
+            color: #ffffff;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        /* 导航菜单样式 */
+        nav {
+            background: #4caf50; /* 主题绿色 */
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #c8e6c9; /* 浅绿色高亮 */
+        }
+
+        /* 内容区域样式 */
+        section {
+            padding: 20px;
+            margin: 20px 0;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            color: #4caf50; /* 主题绿色 */
+            border-bottom: 2px solid #8bc34a; /* 亮绿色下划线 */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* 左侧内容样式 */
+        .lef,
+        .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        /* 右侧问答系统样式 */
+        .right .container2 {
+            border-left: 1px solid #c8e6c9; /* 浅绿色边框 */
+            padding-left: 20px;
+        }
+
+        .right h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #388e3c; /* 深绿色文字 */
+        }
+
+        /* 提问表单样式 */
+        #questionForm {
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        #questionForm label {
+            display: block;
+            margin-bottom: 5px;
+            color: #388e3c; /* 深绿色文字 */
+        }
+
+        #questionForm textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #8bc34a; /* 亮绿色边框 */
+        }
+
+        #questionForm button {
+            padding: 10px 20px;
+            background: #4caf50; /* 主题绿色 */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        #questionForm button:hover {
+            background: #8bc34a; /* 亮绿色高亮 */
+        }
+
+        /* 答案区域样式 */
+        .answer p {
+            font-size: 1.2rem;
+            color: #388e3c; /* 深绿色文字 */
+            margin-bottom: 10px;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: #388e3c; /* 深绿色背景 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* 模板样式 */
+        .template {
+            background: #c8e6c9; /* 浅绿色背景 */
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #4caf50; /* 主题绿色边框 */
+        }
+
+        .template-toggle {
+            cursor: pointer;
+            padding: 10px;
+            background: #4caf50; /* 主题绿色 */
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .template-toggle:hover {
+            background: #8bc34a; /* 亮绿色高亮 */
+        }
+
+        .template-content {
+            display: none;
+            padding: 10px;
+        }
+
+        .template-content p {
+            margin-bottom: 5px;
+            color: #388e3c; /* 深绿色文字 */
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .lef,
+            .right {
+                flex-direction: column;
+            }
+
+            .right .container2 {
+                border-left: none;
+                padding-left: 0;
+            }
+        }
+
+        .container2 h1 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #388e3c; /* 深绿色标题 */
+        }
+
+        .section2 form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f5f5f5; /* 浅灰色背景 */
+            padding: 20px;
+            border-radius: 6px; /* 圆角边框 */
+            transition: box-shadow 0.3s ease;
+        }
+
+        .section2 form:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 鼠标悬浮时更深的阴影 */
+        }
+
+        .section2 label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666; /* 标签文字颜色 */
+        }
+
+        #user_input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc; /* 边框颜色 */
+            border-radius: 4px; /* 输入框圆角 */
+            resize: vertical; /* 允许垂直方向调整大小 */
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #4caf50; /* 主题绿色按钮 */
+            color: white;
+            border: none;
+            border-radius: 4px; /* 按钮圆角 */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background: #45a049; /* 鼠标悬浮时更深的绿色 */
+        }
+
+        .section .answer p:first-child {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #666; /* 第一个段落文字颜色 */
+        }
+
+        #answerText {
+            font-size: 1rem;
+            text-align: justify;
+            color: #333; /* 答案文字颜色 */
+            border-left: 3px solid #8bc34a; /* 左侧边框 */
+            padding-left: 10px; /* 左侧内边距 */
+            margin-top: 10px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container2 h1 {
+                font-size: 1.8rem;
+            }
+
+            .section2 form {
+                width: auto;
+            }
+
+            button[type="submit"] {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>中医针灸问答系统</h1>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#faq">常见问题解答</a></li>
+                <li><a href="#disease">疾病与针灸治疗</a></li>
+                <li><a href="#acupuncture">针灸穴位查询</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div class="container">
+            <h2>针灸</h2>
+            <p>针灸是中国传统医学的重要组成部分，其基本概念是通过在人体特定穴位施以针刺或其他刺激方法（如艾灸、拔罐等），调节人体的气血、阴阳平衡，从而达到预防和治疗疾病的目的。它基于中医理论，认为人体内有经络系统运行气血，连接脏腑组织，而穴位则是经络上的特定点，通过刺激这些穴位可以影响相应经络和脏腑的功能，促进身体自我修复能力。</p>
+        </div>
+    </section>
+
+    <div class="cont">
+        <div class="lef">
+            <section id="disease">
+                <div class="container">
+                    <h2>疾病与针灸治疗</h2>
+
+                    <h1>针灸疗法及其适用疾病介绍</h1>
+
+                    <p>针灸，作为中国传统医学的重要组成部分，是一种通过在人体特定穴位施以针刺或灸治，调节人体气血、促进机体自愈能力的治疗方法。其历史悠久，疗效广泛认可，尤其在治疗某些慢性病和功能性疾病方面显示出独特的优势。</p>
+
+                    <h2>针灸可治疗的疾病类型</h2>
+                    <ul>
+                        <li>疼痛性疾病：如颈椎病、腰椎间盘突出、肩周炎、关节炎等</li>
+                        <li>神经系统疾病：如面瘫、偏头痛、失眠、抑郁症等</li>
+                        <li>消化系统疾病：如胃痛、消化不良、便秘等</li>
+                        <li>呼吸系统疾病：如哮喘、慢性支气管炎等</li>
+                        <li>妇产科疾病：如月经不调、痛经、不孕症等</li>
+                        <li>其他：如更年期综合征、肥胖、戒烟戒酒辅助治疗等</li>
+                    </ul>
+
+                    <h2>治疗方法</h2>
+                    <p><strong>1. 针刺疗法：</strong>使用细针刺入皮肤，到达特定的穴位，根据病情需要调整针的深度、方向及刺激强度，以达到调和气血、疏通经络的目的。</p>
+
+                    <p><strong>2. 灸疗：</strong>包括直接灸（如艾炷灸、艾条灸）和间接灸（如隔姜灸、隔盐灸等），通过燃烧艾绒产生的温热作用于穴位，以温通经络、散寒除湿。</p>
+
+                    <p><strong>3. 电针疗法：</strong>在针刺基础上，通过低频电流刺激针体，增强针刺效果，适用于需要较强刺激的病症。</p>
+
+                    <p><strong>4. 拔罐与刮痧：</strong>虽然不属于传统意义上的针灸，但常与针灸结合使用，通过负压或摩擦皮肤表面，促进血液循环，缓解肌肉紧张和疼痛。</p>
+
+                    <p>值得注意的是，针灸治疗应由具备专业资质的医师操作，治疗前应详细咨询医生，确保安全有效。每个人的体质和病情不同，治疗方案需个性化定制。</p>
+
+                </div>
+            </section>
+        </div>
+
+        <div class="right">
+            <section id="faq">
+                <div class="container">
+                    <h2>常见问题解答--可以按照以下句式提问：</h2>
+                    <div class="template">
+                        <p>其中##代表不同穴位</p>
+                        <p>1. 针灸学/经络学的定义是什么？</p>
+                        <p>2. ##的定位是：</p>
+                        <p>3. ##的解剖是在哪个位置？</p>
+                        <p>4. ##的主治是哪些症状?</p>
+                        <p>5. ##的刺灸法是：</p>
+                        <p>6. ##的附注是？</p>
+                        <p>7. ##的配伍是？</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container2">
+                <h1>中医针灸方向问答系统</h1>
+                <div class="section2">
+                    <form id="questionForm" onsubmit="handleSubmit(event)">
+                        <label for="user_input">请在此输入您的问题：</label>
+                        <textarea id="user_input" name="user_input" rows="5" placeholder="例如：##的定位是？"
+                            required></textarea>
+                        <button type="submit">点击这里提问</button>
+                    </form>
+                </div>
+
+                <div class="section">
+                    <div class="answer">
+                        <p>答案在这里：</p>
+                        <p id="answerText">等待答案...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>版权所有 &copy; 2024 中医针灸问答系统</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch('/answer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const answerText = document.getElementById('answerText');
+                answerText.textContent = data.answer;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const answerText = document.getElementById('answerText');
+                answerText.textContent = '抱歉，无法获取答案。请稍后再试。';
+            });
+        }
+    </script>
+</body>
+</html>
+
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中医针灸方向问答系统</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #b3e5fc; /* 浅蓝色背景 */
+            background-image: url('https://bpic.588ku.com/back_origin_min_pic/19/10/22/58dfb249e73cfc96733ad926706f6553.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #ffffff; /* 白色背景 */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700; /* 加粗标题 */
+            text-align: center;
+            color: #00796b; /* 深青色 */
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        textarea, button {
+            width: 100%;
+            max-width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 1px solid #00796b;
+            border-radius: 10px;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        textarea {
+            height: 150px;
+            resize: none;
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin-top: 10px;
+            background-color: #00796b; /* 深青色按钮背景 */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 10px;
+            outline: none;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #004d40; /* 深青色按钮背景的悬停颜色 */
+            transform: scale(1.05);
+        }
+
+        .answer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 121, 107, 0.1); /* 淡青色背景 */
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .answer p {
+            font-size: 18px;
+            color: #004d40; /* 深青色文字 */
+        }
+
+        .template {
+            background-color: #e0f7fa; /* 淡青色背景 */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .template p {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .template-toggle {
+            font-size: 20px;
+            font-weight: 700; /* 加粗模板标题 */
+            color: #00796b; /* 深青色 */
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .template-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .template.open .template-content {
+            max-height: 200px; /* 根据实际内容高度调整 */
+        }
+
+        /* 垂直菜单样式 */
+        .vertical-container {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ffffff; /* 白色背景 */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* 确保在其他内容上方 */
+        }
+
+        .vertical-container .vertical-title {
+            font-size: 24px;
+            font-weight: 700; /* 加粗标题 */
+            color: #00796b; /* 深青色 */
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .vertical-container .vertical-menu {
+            margin-top: 20px;
+        }
+
+        .vertical-container .vertical-menu h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .vertical-container .vertical-menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .vertical-container .vertical-menu ul li {
+            margin-bottom: 10px;
+        }
+
+        .vertical-container .vertical-menu ul li a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #00796b; /* 深青色 */
+            transition: color 0.3s;
+        }
+
+        .vertical-container .vertical-menu ul li a:hover {
+            color: #004d40; /* 深青色悬停颜色 */
+        }
+
+        @media (max-width: 768px) {
+            .vertical-container {
+                display: none;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="vertical-container">
+    <h1 class="vertical-title">友情链接</h1>
+    <div class="vertical-menu">
+        <ul>
+            <li><a href="https://www.zysj.com.cn/lilunshuji/zhenjiuxue/index.html">中医世家针灸学</a></li>
+            <li><a href="http://www.zlnow.com/">中医之道</a></li>
+            <li><a href="https://www.zhzyw.com/">中医中药网</a></li>
+            <!-- Add more links as needed -->
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <h1>中医针灸方向问答系统</h1>
+    <div class="section">
+        <form id="questionForm" method="POST" action="/submit">
+            <label for="user_input">请在此输入您的问题：</label>
+            <textarea id="user_input" name="user_input" rows="5" placeholder="例如：##的定位是？" required></textarea>
+            <button type="submit">点击这里提问</button>
+        </form>
+    </div>
+    <div class="section">
+        <div class="answer">
+            <p>答案在这里等你</p>
+            <p id="answerText"></p>
+        </div>
+    </div>
+    <div class="section">
+        <div class="template">
+            <h3 class="template-toggle">可以按照以下句式提问：</h3>
+            <div class="template-content">
+                <p>其中##代表不同穴位</p>
+                <p>1. 针灸学/经络学的定义是什么？</p>
+                <p>2. ##的定位是：</p>
+                <p>3. ##的解剖是在哪个位置？</p>
+                <p>4. ##的主治是哪些症状？</p>
+                <p>5. ##的刺灸法是：</p>
+                <p>6. ##的附注是？</p>
+                <p>7. ##的配伍是？</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+        const templateToggles = document.querySelectorAll('.template-toggle');
+
+        templateToggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+                const template = this.parentElement;
+                template.classList.toggle('open');
+
+                const content = template.querySelector('.template-content');
+                if (template.classList.contains('open')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = '0';
+                }
+            });
+        });
+    });
+
+
+        document.getElementById('questionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this);
+            fetch('/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const answerDiv = document.getElementById('answerText');
+                if (data.result) {
+                    answerDiv.innerHTML = data.result;
+                } else {
+                    answerDiv.innerHTML = '无法获取答案。';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const answerDiv = document.getElementById('answerText');
+                answerDiv.innerHTML = '发生错误，请稍后再试。';
+            });
+        });
+    </script>
+</body>
+</html>
